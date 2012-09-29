@@ -34,7 +34,7 @@ $(function() {
   $("#join").click(function() {
     
     localStorage.setItem("character", JSON.stringify({
-      characterType: $("#type").val(),
+      characterType: $("[name=type]:checked").val(),
       name: "herra huu",
     }));
     

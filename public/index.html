@@ -9,19 +9,26 @@
     <script type="text/javascript" src="js/mock/gameserver.js"></script>
 -->
     <script type="text/javascript" src="js/lobby.js"></script>
-    <link rel="stylesheet" href="css/fonts/stylesheet.css" type="text/css" charset="utf-8">
+
+    <link href='http://fonts.googleapis.com/css?family=Federo' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/main.css" type="text/css" />
     <link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/lobby.css" type="text/css" />
+    <link rel="stylesheet" href="css/lib/grid.css" type="text/css" />
+
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
   </head>
   
   <body id="lobby" class="center">
   
   <header>
-    <h1>
-      Bryce Liiru
-    </h1>
+    <h1>Bryce Liiru</h1>
+    <div id="current-game">
+      <b>Current game:</b>
+      <span>Players: <span id="players"></span></span>
+      <span>Rooms: <span id="rooms"></span></span>
+      <span>Runtime: <span id="runtime"></span></span>
+    </div>
   </header>
 
   <section>
@@ -30,18 +37,28 @@
      
     <form action="javascript:;">
     
-    <div>
-    <label for="type">type:</label>
-    <select id="type" name="type">
-        <option value="ninja">Ninja</option>
-        <option value="sumo">Sumo</option>
-        <option value="pixelNinja" selected>Pixel Ninja</option>
-    </select>
+    <div id="select-character" class="clearfix">
+      <label for="type_ninja">
+        <input id="type_ninja" type="radio" name="type" value="ninja" checked />
+        <div class="preview"></div>
+        <span>Ninja</span>
+      </label>
+      <label for="type_sumo">
+        <input id="type_sumo" type="radio" name="type" value="sumo" />
+        <div class="preview"></div>
+        <span>Sumo</span>
+      </label>
+      <label for="type_pixelninja">
+        <input id="type_pixelninja" type="radio" name="type" value="pixelNinja" />
+        <div class="preview"></div>
+        <span>Pixel Ninja</span>
+      </label>
     </div>
     
     <div>
-    <label for="name">name:</label>
-    <input type="text" id="name" name="name" />
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" />
+      <a id="join" class="btn" href="game.html">Enter the world</a>
     </div>
 
     <!--
@@ -57,19 +74,6 @@
     -->
     
     </form>
-    <br>
-    <a id="join" class="btn" href="game.html">Enter the world</a>
-  </section>
-  
-  <section>
-    <h2>Current game:</h2>
-    
-    <div>
-      <span>Players: </span><span id="players"></span><br />
-      <span>Rooms: </span><span id="rooms"></span><br />
-      <span>Runtime: </span><span id="runtime"></span>
-    </div>
-
   </section>
   
   <section>

@@ -1,52 +1,33 @@
 #lobby {
-
-  background: #75420b;
-  /*
-  background-image: linear-gradient(bottom, rgb(145,86,35) 10%, rgb(168,100,40) 78%, rgb(122,66,23) 78%, rgb(168,103,47) 99%);
-  background-image: -o-linear-gradient(bottom, rgb(145,86,35) 10%, rgb(168,100,40) 78%, rgb(122,66,23) 78%, rgb(168,103,47) 99%);
-  background-image: -moz-linear-gradient(bottom, rgb(145,86,35) 10%, rgb(168,100,40) 78%, rgb(122,66,23) 78%, rgb(168,103,47) 99%);
-  background-image: -webkit-linear-gradient(bottom, rgb(145,86,35) 10%, rgb(168,100,40) 78%, rgb(122,66,23) 78%, rgb(168,103,47) 99%);
-  background-image: -ms-linear-gradient(bottom, rgb(145,86,35) 10%, rgb(168,100,40) 78%, rgb(122,66,23) 78%, rgb(168,103,47) 99%);
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0.1, rgb(145,86,35)),
-    color-stop(0.78, rgb(168,100,40)),
-    color-stop(0.78, rgb(122,66,23)),
-    color-stop(0.99, rgb(168,103,47))
-  );
-  */
-background-image: linear-gradient(bottom, rgb(140,97,61) 10%, rgb(117,75,39) 78%, rgb(138,97,66) 78%, rgb(138,97,66) 99%);
-background-image: -o-linear-gradient(bottom, rgb(140,97,61) 10%, rgb(117,75,39) 78%, rgb(138,97,66) 78%, rgb(138,97,66) 99%);
-background-image: -moz-linear-gradient(bottom, rgb(140,97,61) 10%, rgb(117,75,39) 78%, rgb(138,97,66) 78%, rgb(138,97,66) 99%);
-background-image: -webkit-linear-gradient(bottom, rgb(140,97,61) 10%, rgb(117,75,39) 78%, rgb(138,97,66) 78%, rgb(138,97,66) 99%);
-background-image: -ms-linear-gradient(bottom, rgb(140,97,61) 10%, rgb(117,75,39) 78%, rgb(138,97,66) 78%, rgb(138,97,66) 99%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.1, rgb(140,97,61)),
-	color-stop(0.78, rgb(117,75,39)),
-	color-stop(0.78, rgb(138,97,66)),
-	color-stop(0.99, rgb(138,97,66))
-);
-
-  border: solid 6px #fceae0;
-  border-radius: 4px;
-  -webkit-box-shadow: 2px 2px 4px #333;
-  -moz-box-shadow: 2px 2px 4px #333;
-  box-shadow: 2px 2px 4px #333;
+  margin: 0 auto;
+  background: #E7E7E7;
+  border: solid 6px #969696;
+  box-shadow: 0 0 4px black inset;
   position: relative;
   padding: 4% 6% 6%;
+  border-top: 0;
 }
+
+  #lobby h1 {
+    border-bottom: 4px groove white;
+    line-height: 0.75em;
+    margin-top: 0.25em;
+  }
+
+  #lobby #current-game {
+    color: #999;
+    font-size: 0.75em;
+    padding-left: 8px;
+  }
+  #lobby #current-game > span {
+    padding: 0 14px;
+  }
 
   #lobby .version {
     font-size: 8px;
     position: absolute;
     bottom: 0;
-    right: 2px;
+    right: 8px;
   }
 
   #lobby section {
@@ -54,18 +35,81 @@ background-image: -webkit-gradient(
     min-width: 200px;
     float: left;
     vertical-align: top;
-    border-top: 4px groove rgba(255,255,255,0.5);
     margin: 10px 0;
   }
 
     #lobby form > div {
-      margin: 5px 0;
+      margin: 15px 0;
+      font-size: 0.85em;
     }
 
-      #lobby form label {
-        display: block;
+    #lobby #select-character > label {
+      display: block;
+      float: left;
+      position: relative;
+      padding: 5px 10px;
+    }
+    #lobby #select-character > label > div,
+    #lobby #select-character > label > span {
+      position: relative;
+      vertical-align: middle;
+    }
+
+    #lobby .preview {
+      width: 32px;
+      height: 42px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    #lobby [for=type_ninja] .preview {
+      background: url("../images/characters/ninja/spritesheet.png") -16px -27px no-repeat;
+      height: 32px;
+      border-bottom: solid 10px transparent;
+    }
+    #lobby [for=type_sumo] .preview {
+      background: url("../images/characters/sumo/spritesheet.png") -16px -22px no-repeat;
+    }
+    #lobby [for=type_pixelninja] .preview {
+      background: url("../images/characters/ninja/ninja1.png") 0 7px no-repeat;
+    }
+
+    #lobby #select-character > label:first-child input {
+      border-radius: 5px 0 0 5px;
+    }
+    #lobby #select-character > label:last-child input {
+      border-radius: 0 5px 5px 0;
+    }
+    #lobby input[type=radio] {
+      display: block;
+      position: absolute;
+      border: solid 1px #888;
+      -webkit-appearance: none;
+      background: #DDD;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: 0;
+      z-index: 0;
+      box-shadow: 1px 1px 3px #666;
+    }
+    #lobby input[type=radio]:checked {
+      background: #d3d3d3;
+      box-shadow: 1px 1px 5px #666 inset;
+    }
+      #lobby input[type=radio] span {
+        position: relative;
+        font-size: 0.75em;
       }
-      
+
+    #lobby #name {
+      border: solid 1px #888;
+      border-radius: 5px;
+      box-shadow: 1px 1px 4px #333 inset;
+      padding: 14px 10px;
+      outline: none;
+    }
+
     #lobby #preview {
       width: 80%;
       height: 30%;
@@ -74,7 +118,7 @@ background-image: -webkit-gradient(
       border-radius: 4px;
     }
     
-    #lobby a.btn {
+    #lobby .btn {
       display: inline-block;
       padding: 8px;
       border-radius: 4px;
@@ -95,9 +139,12 @@ background-image: -webkit-gradient(
       );
       border: solid 1px #fff;
       text-decoration: none;
-      -webkit-box-shadow: 2px 2px 4px #333;
-      -moz-box-shadow: 2px 2px 4px #333;
-      box-shadow: 2px 2px 4px #333;
+      box-shadow: 1px 1px 4px #333;
+      text-shadow: 1px 1px 1px #333;
+    }
+    #lobby .btn:active {
+      margin: 1px 1px;
+      box-shadow: 1px 1px 4px #333 inset;
     }
     
     .info {

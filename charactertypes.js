@@ -1,0 +1,255 @@
+exports.characterTypes = {
+  pixelNinja: {
+    id: "pixelNinja",
+    maxaccx: 6,
+    maxaccy: 10,
+    jumpsize:8,
+    jumpaccy:8,
+    climbaccx:4,
+    climbaccy:3,
+    spriteSheetUrl: "images/characters/ninja/ninja1.png",
+    tileset: {
+      id: "pixelNinja",
+      image: "images/characters/ninja/ninja1.png",
+      tileh: 32, 
+      tilew: 32, 
+      tilerow: 8,
+      gapx: 0, 
+      gapy: 0 
+    },
+    frames: {
+      climb: {id: "climb", frames:[32,38,33,34,35,36,37,36,35,34,33,38],speed:1,loop:true},
+      die: {id: "die", frames:[40,41,42,43,44,45,46,47],speed:1},
+      fall: {id: "fall", frames:[29],speed:1},
+      jump: {id: "jump", frames:[27],speed:1},
+      run: {id: "run", frames:[8,9,10,11,12,13,14,15],speed:1,loop:true},
+      stand: {id: "stand", frames:[0,0,0,0,0,0,0,7],speed:4,loop:true},
+      strike: {id: "strike", frames:[16,17,18,19,20,21,22,23],speed:1},
+      prep_for_jump_from_run: {id: "prep_for_jump_from_run", frames:[24,25,26],speed:1},
+      prep_for_run_from_stand: {id: "prep_for_run_from_stand", frames:[0,1,2,3],speed:1},
+      prep_for_stand_from_fall: {id: "prep_for_stand_from_fall", frames:[29,30,31,0],speed:1},
+      prep_for_strike_from_stand: {id: "prep_for_strike_from_stand", frames:[0,4,5,6],speed:1},
+      prep_for_fall_from_jump: {id: "prep_for_fall_from_jump", frames:[27,28,29],speed:1},
+      prep_for_strike_from_run: {id: "prep_for_strike_from_run", frames:[24,25,16],speed:1},
+      prep_for_jump_from_stand: {id: "prep_for_jump_from_stand", frames:[0,1,2,3,24,25,26,27],speed:1}
+    },
+    collisions: [
+      {h: 30, w: 14, y: 2, x: 8},
+      {h: 26, w: 14, y: 6, x: 8},
+      {h: 26, w: 14, y: 6, x: 8},
+      {h: 26, w: 14, y: 6, x: 10},
+      {h: 32, w: 14, y: 2, x: 10},
+      {h: 32, w: 14, y: 2, x: 8},
+      {h: 32, w: 14, y: 2, x: 8},
+      {h: 30, w: 14, y: 2, x: 8},
+      
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 10},
+      
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 28, w: 16, y: 4, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 10},
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 28, w: 18, y: 4, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 32, w: 18, y: 0, x: 8},
+      {h: 0, w: 0, y: 0, x: 0},
+      
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      {h: 18, w: 14, y: 14, x: 8},
+      
+      {h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0},{h: 0, w: 0, y: 0, x: 0}
+    ],
+    
+    strikeCollisions: [
+      null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null,null,
+      {h: 30, w: 16, y: 2, x: 8},
+      {h: 30, w: 24, y: 2, x: 8},
+      {h: 30, w: 30, y: 2, x: 8},
+      {h: 30, w: 30, y: 2, x: 8},
+      {h: 30, w: 24, y: 2, x: 8},
+      {h: 30, w: 20, y: 2, x: 8},
+      {h: 30, w: 16, y: 2, x: 8},
+      /*
+      {h: 9, w: 23, y: 0, x: 0},
+      {h: 32, w: 12, y: 0, x: 21},
+      {h: 32, w: 12, y: 0, x: 21},
+      {h: 32, w: 14, y: 0, x: 19},
+      {h: 22, w: 14, y: 10, x: 18},
+      {h: 13, w: 32, y: 19, x: 0},
+      {h: 13, w: 22, y: 19, x: 0},
+      */
+      null,null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null,
+      null,null,null,null,null
+    ]
+  },
+  
+  ninja: {
+    id: "ninja",
+    maxaccx: 6,
+    maxaccy: 10,
+    jumpsize:7,
+    jumpaccy:7,
+    climbaccx:4,
+    climbaccy:2,
+    spriteSheetUrl: "images/characters/ninja/spritesheet.png",
+    tileset: {
+      id: "ninja",
+      image: "images/characters/ninja/spritesheet.png",
+      tileh: 64, 
+      tilew: 64, 
+      tilerow: 16,
+      gapx: 0, 
+      gapy: 0 
+    },
+    frames:{
+      stand:{id: "stand", speed:1, frames:[0] },
+      run:{id: "run", speed:1, frames:[1,2,3,4], loop: true },
+      jump:{id: "jump", speed:1, frames:[10] },
+      fall:{id: "fall", speed:1, frames:[9] },
+      strike:{id: "strike",speed:2, frames:[5,6,7,8] },
+      climb:{id: "climb",speed:2, frames:[11,12,13,14], loop: true },
+      die:{id: "die",speed:1,frames:[15] }
+    },
+    collisions: [
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34},
+      {h:30,w:16,x:24,y:34}
+    ],
+    
+    strikeCollisions: [
+      null,null,null,null,null,
+      {h: 7, w: 20, y: 29, x: 17},
+      {h: 21, w: 12, y: 23, x: 32},
+      {h: 25, w: 16, y: 24, x: 42},
+      {h: 17, w: 37, y: 47, x: 22},
+      null,null,null,null,null,null,null
+    ]
+  },
+  
+  sumo: {
+    id: "sumo",
+    maxaccx: 7,
+    maxaccy: 10,
+    jumpsize:7,
+    jumpaccy:7,
+    climbaccx:4,
+    climbaccy:2,
+    spriteSheetUrl: "images/characters/sumo/spritesheet.png",
+    tileset: {
+      id: "sumo",
+      image: "images/characters/sumo/spritesheet.png",
+      tileh: 64, 
+      tilew: 64, 
+      tilerow: 25,
+      gapx: 0, 
+      gapy: 0 
+    },
+    frames: {
+      stand:{id: "stand", speed: 1, frames: [0]},
+      run:{id: "run", speed: 1, frames: [1,2,3,4], loop: true },
+      strike:{id: "strike", speed: 1, frames: [5,6,7,8,9,10,11,12,13,14,15,16,17,17,16,15,14,14,13,12,11,10,9,8,7,6,5]},
+      jump:{id: "jump", speed: 1, frames: [19]},
+      fall:{id: "fall", speed: 1, frames: [18]},
+      climb:{id: "climb", speed: 2, frames: [20,21,22,23], loop: true },
+      die:{id: "die", speed: 1, frames: [24]}
+    },
+    collisions: [
+      {h: 40, w: 22, y: 24, x: 20},
+      
+      {h: 42, w: 22, y: 22, x: 20},
+      {h: 42, w: 22, y: 22, x: 20},
+      {h: 42, w: 22, y: 22, x: 20},
+      {h: 42, w: 22, y: 22, x: 20},
+      
+      {h: 42, w: 22, y: 22, x: 20},
+      {h: 40, w: 24, y: 24, x: 21},
+      {h: 40, w: 24, y: 24, x: 24},
+      {h: 36, w: 30, y: 28, x: 26},
+      {h: 36, w: 30, y: 28, x: 26},
+      {h: 31, w: 34, y: 33, x: 26},
+      {h: 24, w: 38, y: 40, x: 24},
+      {h: 22, w: 40, y: 42, x: 25},
+      {h: 22, w: 40, y: 42, x: 25},
+      {h: 24, w: 39, y: 40, x: 25},
+      {h: 24, w: 39, y: 40, x: 25},
+      {h: 24, w: 39, y: 40, x: 25},
+      {h: 24, w: 39, y: 40, x: 25},
+      
+      {h: 40, w: 22, y: 24, x: 20},
+      
+      {h: 40, w: 22, y: 24, x: 20},
+      
+      {h: 42, w: 26, y: 22, x: 19},
+      {h: 42, w: 26, y: 22, x: 19},
+      {h: 42, w: 26, y: 22, x: 19},
+      {h: 42, w: 26, y: 22, x: 19},
+      
+      {h: 30, w: 28, y: 34, x: 19}
+    ],
+    
+    strikeCollisions: [
+      null,null,null,null,null,null,null,null,
+      {h: 28, w: 24, y: 36, x: 32},
+      {h: 28, w: 24, y: 36, x: 32},
+      {h: 28, w: 30, y: 36, x: 32},
+      {h: 24, w: 30, y: 40, x: 32},
+      {h: 22, w: 33, y: 42, x: 32},
+      {h: 18, w: 33, y: 46, x: 32},
+      {h: 14, w: 32, y: 52, x: 32},
+      {h: 14, w: 32, y: 52, x: 32},
+      {h: 14, w: 32, y: 52, x: 32},
+      {h: 14, w: 32, y: 52, x: 32},
+      null,null,null,null,null,null,null
+    ]
+  }
+};

@@ -1,0 +1,267 @@
+gbox._keymap = help.mergeWithModel({
+    ctrl: 17
+}, gbox._keymap);
+gbox.getGroup = function(group) {return this._objects[group]};
+gbox._rooms = {};
+gbox.addRoom = function(id,url) {
+    this._count++;
+    this._rooms[id]={id: id};
+    $.ajax({
+        url: url,
+        type: 'get',
+        contentType: "text/json",
+        dataType: "json",
+        success: function(response) {
+            gbox._rooms[id] = help.mergeWithModel(gbox._rooms[id], response);
+            gbox.addImage("roombg_" + response.backgroundImageId, "/brucelee/image/show/" + response.backgroundImageId);
+            gbox._loaded();
+        }
+    });
+};
+gbox._characters = {};
+gbox.addCharacter = function(id, url) {
+    this._count++;
+    this._characters[id]={id: id};
+    $.ajax({
+        url: url,
+        type: 'get',
+        contentType: "text/json",
+        dataType: "json",
+        success: function(response) {
+            var c = response.characterInstance;
+            gbox._characters[id] = help.mergeWithModel(gbox._characters[id], c);
+            gbox.addImage("spritesheet_" + c.type.spritesheet.id, "/brucelee/image/show/" + c.type.spritesheet.id);
+            gbox._loaded();
+        }
+    });
+}
+
+help.getAbsCollision = function(th) {
+    return {
+        x: th.x + th.collision.x,
+        y: th.y + th.collision.y,
+        w: th.collision.w,
+        h: th.collision.h
+    };
+};
+
+toys.brucelee = help.mergeWithModel({
+
+    handleAccellerations:function(th) {
+        // Gravity
+        if (!th.touchedfloor && !th.touchedLadder) th.accy++;
+        // Attrito
+        if (th.pushing==toys.PUSH_NONE) if (th.accx) th.accx=help.goToZero(th.accx);
+    },
+    verticalTileCollision:function(th,map,tilemap) {
+        
+        var col = help.getAbsCollision(th);
+
+        var bottom=help.getTileInMap(col.x+(col.w/2),col.y+col.h,map,0,tilemap);
+        var top=help.getTileInMap(col.x+(col.w/2),col.y,map,0,tilemap);
+        th.touchedfloor=false;
+        th.touchedceil=false;
+
+        if (map.tileIsSolidCeil(th,top)) {
+                th.accy=0;
+                th.y=help.yPixelToTile(map,th.y,1);
+                th.touchedceil=true;
+        }
+        if (map.tileIsSolidFloor(th,bottom)) {
+                th.accy=0;
+                th.y=help.yPixelToTile(map,th.y+th.h)-th.h;
+                th.touchedfloor=true;
+        }
+        
+    },
+    
+    horizontalTileCollision:function(th,map,tilemap) {
+
+        var left=0;
+        var right=0;
+        var t=0;
+        var col = help.getAbsCollision(th);
+
+        th.touchedleftwall=false;
+        th.touchedrightwall=false;
+
+        while (t<col.h) {
+                left=help.getTileInMap(col.x,col.y+t,map,0,tilemap);
+                right=help.getTileInMap(col.x+col.w-1,col.y+t,map,0,tilemap);
+
+                if ((th.accx<0)&&map.tileIsSolidFloor(th,left)) {
+                        th.accx=0;
+                        th.x=help.xPixelToTile(map,th.x-1,1);
+                        th.touchedleftwall=true;
+                } 
+                if ((th.accx>0)&&map.tileIsSolidFloor(th,right)) {
+                        th.accx=0;
+                        th.x=help.xPixelToTile(map,th.x,1)-col.w;
+                        th.touchedrightwall=true;
+                }
+                t+=gbox.getTiles(map.tileset).tileh;
+        }
+        
+    },
+
+    ladderTileCollision:function(th,map,tilemap) {
+        var col = help.getAbsCollision(th);
+
+        var bottom  =   help.getTileInMap(col.x+(col.w/2),col.y+col.h,map,0,tilemap);
+        var top     =   help.getTileInMap(col.x+(col.w/2),col.y-(col.h/2),map,0,tilemap);
+        var tile    =   help.getTileInMap(col.x+(col.w/2),col.y+(col.h/2),map,0,tilemap);
+
+        th.touchedLadder=false;
+        if (map.tileIsLadder(th,tile) || map.tileIsLadder(th,bottom) || map.tileIsLadder(th,top)) {
+            th.isStriking = false;
+            th.touchedLadder=true;
+        }
+    },
+
+    strikeCollision:function(th) {
+        if(th.isStriking) {
+            var col = help.getAbsCollision(th);
+            
+            var players = gbox.getGroup("players");
+            for(var id in players) {
+                var p = players[id];
+                if(p.id != th.id && gbox.collides(col, help.getAbsCollision(p))) {
+                    p.die();
+                }
+            }
+        }
+    },
+
+    setFrame:function(th) {
+            if (th.isDead) {
+                th.frame=help.decideFrameOnce(th.counter,th.frames.dying);
+            } else if (th.touchedLadder) {
+                if(th.accy!=0 || th.accx!=0)
+                    th.frame=help.decideFrame(th.counter,th.frames.climbing);
+                else
+                    th.frame=th.frames.climbing.frames[0];
+            } else if (th.isStriking) {
+                th.frame=help.decideFrameOnce(th.counter,th.frames.striking);
+                if(help.isLastFrameOnce(th.counter, th.frames.striking)) {
+                   th.isStriking = false;
+                }
+            } else if (th.touchedfloor) {
+                if (th.pushing!=toys.PUSH_NONE)
+                    th.frame=help.decideFrame(th.counter,th.frames.walking);
+                else
+                    th.frame=help.decideFrame(th.counter,th.frames.still);
+            } else if (th.accy>0)
+                th.frame=help.decideFrame(th.counter,th.frames.falling);
+            else
+                th.frame=help.decideFrame(th.counter,th.frames.jumping);
+
+    },
+
+    setCollision:function(th) {
+            th.collision = th.collisions[th.frame];
+            if(!th.side) {
+                // w/2 + (w/2 - (cx + cw/2)) - cw/2
+                th.collision.x = th.w/2 + (th.w/2 - (th.collision.x + th.collision.w/2)) - th.collision.w/2;
+            }
+    },
+
+    horizontalKeys:function(th,keys) {
+            if (th.isStriking || th.isDead) {
+                    th.pushing=toys.PUSH_NONE;
+            } else if (gbox.keyIsPressed(keys.left)) {
+                    th.pushing=toys.PUSH_LEFT;
+                    th.accx=help.limit(th.accx-1,-th.maxaccx,th.maxaccx);
+            } else if (gbox.keyIsPressed(keys.right)) {
+                    th.pushing=toys.PUSH_RIGHT;
+                    th.accx=help.limit(th.accx+1,-th.maxaccx,th.maxaccx);
+            } else th.pushing=toys.PUSH_NONE;
+    },
+
+    strikeKeys:function(th,key) {
+            if (toys.brucelee.canStrike(th)&&gbox.keyIsHit(key.strike)) {
+                th.counter = 0;
+                th.isStriking = true;
+            }
+    },
+    
+    canJump:function(th) {
+        return th.touchedfloor && !th.isStriking && !th.touchedLadder && !th.isDead;
+    },
+
+    canStrike: function(th) {
+        return !th.isStriking && !th.isDead && !th.touchedLadder;
+    },
+
+    canClimb:function(th) {
+        return th.touchedLadder && !th.isStriking && !th.isDead;
+    },
+    
+    jumpKeys:function(th,key) {
+        if (this.canJump(th)&&gbox.keyIsHit(key.jump)&&(th.curjsize==0)) {
+                th.accy=-th.jumpaccy;
+                th.curjsize=th.jumpsize;
+                th.isStriking = false;
+        } else if (th.curjsize&&gbox.keyIsHold(key.jump)) { // Jump modulation
+                th.accy--;
+                th.curjsize--;
+                th.isStriking = false;
+        } else
+                th.curjsize=0;
+    },
+
+    climbKeys:function(th,key) {
+        if(this.canClimb(th)) {
+            if (gbox.keyIsPressed(key.climb))
+                th.accy=-th.climbaccy;
+            else if (gbox.keyIsPressed(key.descend))
+                th.accy=th.climbaccy;
+            else th.accy=0;
+        }
+    },
+
+    autoEnemy: {
+
+        first: function(th) {
+          th.counter=(th.counter+1)%16;
+
+          toys.brucelee.applyGravity(th);
+          toys.brucelee.autoEnemy.horizontalKeys(th);
+          toys.brucelee.verticalTileCollision(th,map,"map"); // vertical tile collision (i.e. floor)
+          toys.brucelee.horizontalTileCollision(th,map,"map"); // horizontal tile collision (i.e. walls)
+          toys.brucelee.autoEnemy.jumpKeys(th);
+          toys.brucelee.handleAccellerations(th);
+
+          toys.brucelee.setSide(th); // set horizontal side
+          toys.brucelee.setFrame(th); // set the right animation frame
+        },
+
+        horizontalKeys: function(th) {
+            var pl = gbox.getObject('players', 'playerid');
+            if (th.isStriking) {
+                th.pushing=toys.PUSH_NONE;
+            } else if (pl.x < th.x) {
+                th.pushing=toys.PUSH_LEFT;
+                th.accx=help.limit(th.accx-1,-th.maxaccx,th.maxaccx);
+            } else if (pl.x > th.x) {
+                th.pushing=toys.PUSH_RIGHT;
+                th.accx=help.limit(th.accx+1,-th.maxaccx,th.maxaccx);
+            } else th.pushing=toys.PUSH_NONE;
+
+        },
+
+        jumpKeys:function(th,key) {
+            var pl = gbox.getObject('players', 'playerid');
+            if (toys.brucelee.canJump(th)&&pl.y<th.y&&(th.curjsize==0)) {
+                th.accy=-th.jumpaccy;
+                th.curjsize=th.jumpsize;
+            } else if (th.curjsize&&pl.y<th.y) { // Jump modulation
+                th.accy--;
+                th.curjsize--;
+            } else
+                th.curjsize=0;
+        }
+        
+
+    }
+
+}, toys.platformer);

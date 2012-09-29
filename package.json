@@ -1,0 +1,14 @@
+{
+  "name"          : "bryceliiru",
+  "description"   : "An attempt at a fun test with nodejs, websockets and friends.",
+  "homepage"      : "brycelii.no.de",
+  "keywords"      : ["game", "websocket", "js", "javascript", "brucelee", "ninja", "sumo"],
+  "author"        : "Tuomas Nylund <tunylund@gmail>",
+  "contributors"  : [],
+  "licenses"      : [],
+  "dependencies"  : ["socket.io", "socket.io-client", "node-static"],
+  "version"       : "0.5.0",
+  "private"       : true,
+  "engines"       : { "node": ">= 0.4.1" },
+  "scripts"       : { "start": "NODE_ENV=production node server.js" }
+}

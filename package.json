@@ -6,9 +6,12 @@
   "author"        : "Tuomas Nylund <tunylund@gmail>",
   "contributors"  : [],
   "licenses"      : [],
-  "dependencies"  : ["socket.io", "socket.io-client", "node-static"],
-  "version"       : "0.5.0",
+  "dependencies"  : {
+    "node-static"      : "0.6.2", 
+    "socket.io"        : "0.9.10"
+  },
+  "version"       : "0.7.0",
   "private"       : true,
-  "engines"       : { "node": ">= 0.4.1" },
+  "engines"       : { "node": ">= 0.6.21" },
   "scripts"       : { "start": "NODE_ENV=production node server.js" }
 }

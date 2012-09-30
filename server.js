@@ -5,7 +5,7 @@ var http = require('http'),
     socketIO = require('socket.io'),
     u = require('./utils.js'),
     static = require('node-static'),
-    port = process.env.PORT || 3001;
+    port = process.env.PORT || 8080;
 
 var staticServer = new static.Server('./public/');
     

@@ -9,7 +9,7 @@ h3 { font-size: 40px/47px; }
 h4 { font-size: 30px/37px; }
 
 html {
-  background: #c1b9ae;
+  background: #333;
   color: #333; 
 }
 
@@ -26,11 +26,7 @@ html {
 }
 
 body canvas {
-  border: solid 6px #fceae0;
-  border-radius: 4px;
-  -webkit-box-shadow: 2px 2px 4px #333;
-  -moz-box-shadow: 2px 2px 4px #333;
-  box-shadow: 2px 2px 4px #333;
+  box-shadow: 0 0 64px black;
   position: relative;
 }
 
@@ -47,7 +43,11 @@ body .pad > div {
   font-size: 11px;
   position: absolute;
   right: 20px;
-  color: #fceae0;
+}
+#lag,
+#lag a {
+  color: #444;
+  text-shadow: -1px -1px #222;
 }
 
 

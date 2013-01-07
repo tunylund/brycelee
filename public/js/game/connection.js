@@ -67,11 +67,12 @@ var Connection = {
       }
       setTimeout(function() {
         gbox.addCharacterType(charType);
-        gbox.addObject(new AutoPlayer({
+        gbox.autoplayer = new AutoPlayer({
           id: "autoplayer",
           characterType: charType,
           x: 40, y: 40
-        }));
+        });
+        gbox.addObject(gbox.autoplayer);
       },7000);
     }
     /*
@@ -123,6 +124,10 @@ var Connection = {
   onEnemySpawn: function(enemy) {
     gbox.addCharacter(enemy);
     gbox.addObject(gbox._characters[enemy.id]);
+    if(gbox.autoplayer) {
+      gbox.trashObject(gbox.autoplayer);
+      gbox.autoplayer = null;
+    }
   },
   
   onEnemyUpdate: function(msg) {

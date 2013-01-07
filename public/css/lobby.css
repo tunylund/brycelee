@@ -1,6 +1,6 @@
 #lobby {
   margin: 0 auto;
-  background: #E7E7E7;
+  background: #fafafa;
   border: solid 6px #969696;
   position: relative;
   padding: 4% 6% 6%;
@@ -83,7 +83,7 @@
       position: absolute;
       border: solid 1px #888;
       -webkit-appearance: none;
-      background: #DDD;
+      background: #eee;
       left: 0;
       right: 0;
       top: 0;
@@ -94,7 +94,7 @@
     }
     #lobby input[type=radio]:checked {
       background: #d3d3d3;
-      box-shadow: 1px 1px 5px #666 inset;
+      box-shadow: 1px 1px 3px #333 inset;
     }
       #lobby input[type=radio] span {
         position: relative;

@@ -56,6 +56,24 @@ var Connection = {
     for(var i=0; i<response.enemies.length; i++) {
       gbox.addCharacter(response.enemies[i]);
     }
+
+    if(response.enemies.length == 0) {      
+      var charType = null;
+      while(!charType) {
+        for(var i in characterTypes) {
+          if(Math.random() > 0.75)
+            charType = characterTypes[i]
+        }
+      }
+      setTimeout(function() {
+        gbox.addCharacterType(charType);
+        gbox.addObject(new AutoPlayer({
+          id: "autoplayer",
+          characterType: charType,
+          x: 40, y: 40
+        }));
+      },7000);
+    }
     /*
     game.spawner = new Spawner({
       spawntime: response.spawntime,
@@ -86,7 +104,7 @@ var Connection = {
     gbox.player.x = player.x;
     gbox.player.y = player.y;
     
-    clearTimeout(this.requestSpawnTimeout);
+    clearTimeout(Connection.requestSpawnTimeout);
     /*
     if(game.spawner 
       && gbox.getGroup(game.spawner.group) 

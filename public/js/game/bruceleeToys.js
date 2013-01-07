@@ -88,7 +88,7 @@ toys.brucelee = help.mergeWithModel({
           th.touchedfloor=true;
           th.walkingOnLadder=true;
         }
-        t+=gbox.getTiles(map.tileset).tilew;
+        t+=col.hw
       }
     },
     
@@ -406,8 +406,7 @@ toys.brucelee = help.mergeWithModel({
             } else
                 th.curjsize=0;
         }
-        
-
+      
     }
 
 }, toys.platformer);

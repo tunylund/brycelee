@@ -25,6 +25,8 @@ var game = {
         //dpad: "js/lib/akihabara-core-1.3.1/akihabara/dpad.png",
         //buttons: "js/lib/akihabara-core-1.3.1/akihabara/buttons.png"
       }).className = "pad";
+      var ctrls = document.getElementById("controls");
+      ctrls.parentNode.removeChild(ctrls)
     }
 
     gbox.setCallback(function() {
@@ -72,15 +74,7 @@ var game = {
           gbox.addObject(gbox._gems[i]);
         }
         Connection.requestSpawn();
-        /*
-        setTimeout(function() {
-          gbox.addObject(new AutoPlayer({
-            id: "autoplayer",
-            characterType: gbox.player.characterType,
-            x: 40, y: 40
-          }));
-        },7000);
-        */
+
     };
     
     maingame.setState(102);

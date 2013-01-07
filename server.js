@@ -22,6 +22,11 @@ var httpServer = http.createServer(function (req, res) {
       res.end(JSON.stringify(game.status()));
       break;
 
+    case "charactertypes.js":
+      res.writeHead(headers.success, headers.js);
+      res.end("characterTypes = " + JSON.stringify(require('./charactertypes.js').characterTypes));
+      break;
+
     case "css":
     case "js":
     case "images":
@@ -44,7 +49,9 @@ httpServer.listen(port);
 var io = socketIO.listen(httpServer);
 io.sockets.on('connection', u.proxy(game.connect, game));
 io.configure(function (){
-  io.set('transports', ['websocket']);
+  //https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
+  io.set('transports', ['websocket', 'flashsocket']);
+  io.set('log level', 1);//error only
   io.set('authorization', function (handshakeData, callback) {
     callback(null, true); // error first callback style 
   });

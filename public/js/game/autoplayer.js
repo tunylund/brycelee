@@ -27,6 +27,7 @@ AutoPlayer.prototype = help.mergeWithModel({
     tb.strikeCollision(this);
     tb.autoEnemy.jumpKeys(this);
     tb.climbKeys(this);
+    tb.autoEnemy.strikeKeys(this);
     tb.handleAccellerations(this);
 
     tb.setSide(this); // set horizontal side

@@ -50,7 +50,7 @@ $.mockjax({
         ]
       },
       player: {
-        id: "player_123",
+        id: "player-123",
         tileset: "ninja",
         characterType: {
           id: "ninja",
@@ -68,7 +68,7 @@ $.mockjax({
     status: "success",
     data: {
       player: {
-        id: "player_123",
+        id: "player-123",
         tileset: "ninja"
       },
       characterType: {

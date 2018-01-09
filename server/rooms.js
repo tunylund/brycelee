@@ -1,98 +1,83 @@
-var u = require('./utils.js');
+const gemInterval = 30000
+const characterCheckInterval = 30000
+const treasureOriginTile = '+'
 
-exports.Room = function(room) {
-  this.room = room;
-  this.players = [];
-  this.gems = {};
-  this.init();
-};
-exports.Room.prototype = {
+class Room {
 
-  treasureOriginTile: '+',
-  gemInterval: 30000,
-  characterCheckInterval: 30000,
-  game: null,
+  constructor(room, game) {
+    this.game = game
+    this.room = room
+    this.players = []
+    this.gems = {}
+    this.createGems()
+  }
 
-  init: function() {
-    this.createGems();
-  },
-  
-  createGems: function() {
-    for(var y=0, l=this.room.map.length; y<l; y++) {
-      for(var x=0, k=this.room.map[y].length; x<k; x++) {
+  createGems () {
+    for(let y=0, l=this.room.map.length; y<l; y++) {
+      for(let x=0, k=this.room.map[y].length; x<k; x++) {
         if(this.room.map[y][x] == this.treasureOriginTile) {
-          var gem = {
-            id: x + "," + y, 
-            x: x, 
-            y: y,
-            status: true
-          };
-          this.gems[gem.id] = gem;
+          const gem = { id: x + "," + y,  status: true, x, y }
+          this.gems[gem.id] = gem
         }
       }
     }
-  },
+  }
   
-  checkGems: function() {
-    var newGems = [];
-    for(var i in this.gems) {
-      var gem = this.gems[i];
+  checkGems () {
+    const newGems = []
+    for(let i in this.gems) {
+      const gem = this.gems[i]
       if(!gem.status) {
-        gem.status = true;
-        newGems.push(gem.id);
+        gem.status = true
+        newGems.push(gem.id)
       }
     }
     if(newGems.length > 0)
-      this.sendGems(newGems);
-  },
+      this.sendGems(newGems)
+  }
   
-  checkGem: function(gemId) {
-    var gem = this.gems[gemId],
-        newGems = [];
+  checkGem (gemId) {
+    const gem = this.gems[gemId],
+          newGems = []
     if(gem && !gem.status) {
-        gem.status = true;
-        newGems.push(gem.id);
-        this.sendGems(newGems);
+        gem.status = true
+        newGems.push(gem.id)
+        this.sendGems(newGems)
     }
-  },
+  }
   
-  sendGems: function(gems) {
-    for(var i=0; i<this.players.length; i++) {
-      this.players[i].client.emit("gemBirth", gems);
+  sendGems (gems) {
+    for(let player of this.players) {
+      player.client.emit("gemBirth", gems)
     }
-  },
+  }
 
-  sendGemRemove: function(gemId) {
-    for(var i=0; i<this.players.length; i++) {
-      this.players[i].client.emit("gemRemove", gemId);
+  sendGemRemove (gemId) {
+    for(let player of this.players) {
+      player.client.emit("gemRemove", gemId)
     }
-  },
+  }
 
-  addPlayer: function(player) {
-    this.players.push(player);
-    player.room = this;
-    player.client.on('gemPicked', u.proxy(this.pickGem, this, player));
-  },
+  addPlayer (player) {
+    this.players.push(player)
+    player.room = this
+    player.client.on('gemPicked', (...args) => this.pickGem(...args, player))
+  }
   
-  removePlayer: function(player) {
-    for(var i=0; i<this.players.length; i++) {
-      if(this.players[i].id == player.id) {
-        this.players.splice(i,1);
-        break;
-      }
+  removePlayer (player) {
+    this.players.splice(this.players.findIndex(p => p.id === player.id), 1)
+  }
+  
+  pickGem (gemId, player) {
+    if (this.gems[gemId] && this.gems[gemId].status) {
+      player.gemCount++
+      this.gems[gemId].status = false
+      this.sendGemRemove(gemId)
+      setTimeout(() => this.checkGem(gemId), gemInterval)
     }
-  },
+  }
   
-  pickGem: function(gemId, player) {
-    if(this.gems[gemId] && this.gems[gemId].status) {
-      player.gemCount++;
-      this.gems[gemId].status = false;
-      this.sendGemRemove(gemId);
-      setTimeout(u.proxy(this.checkGem, this, gemId), this.gemInterval);
-    }
-  },
-  
-  toJson: function() {
+  toJson () {
     return {
       room: this.room,
       gems: this.gems
@@ -101,7 +86,9 @@ exports.Room.prototype = {
   
 }
 
-exports.rooms = [
+module.exports.Room = Room
+
+module.exports.rooms = [
   {
     id: "room_1",
     backgroundImageUrl: "images/bg.png",
@@ -198,4 +185,4 @@ exports.rooms = [
           "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"]
           
   }
-];
+]

@@ -1,165 +1,108 @@
-#lobby {
-  margin: 0 auto;
+html {
+  font: 18px/27px Arial, sans-serif;
+  margin: 0;
+  height: 100%;
+  width: 100%;
   background: #fafafa;
-  border: solid 6px #969696;
-  position: relative;
-  padding: 4% 6% 6%;
-  border-top: 0;
+  background: rgba(255,155,234,1);
+  background: linear-gradient(45deg, rgba(255,155,234,1) 0%, #fafafa 100%);
 }
 
-  #lobby h1 {
-    border-bottom: 4px groove white;
-    line-height: 0.75em;
-    margin-top: 0.25em;
+.center {
+  width: 80%;
+  margin: 4% auto;
+  padding: 6%;
+}
+
+h1 {
+  font-family: 'Federo', sans-serif;
+  text-shadow: 1px 1px 1px white;
+  border-bottom: 2px groove white;
+  font-size: 5em;
+  margin: 0.25em 0 0;
+  line-height: 0.75em;
+}
+
+#current-game {
+  color: #424242;
+  font-size: 0.75em;
+  padding-left: 8px;
+}
+#current-game > span {
+  padding: 0 14px;
+}
+
+@media(min-width: 800px) {
+  .columns  {
+    display: flex;
   }
-
-  #lobby #current-game {
-    color: #999;
-    font-size: 0.75em;
-    padding-left: 8px;
+  .columns > section {
+    width: 50%;
+    margin: 10px 10px 10px 0;
   }
-  #lobby #current-game > span {
-    padding: 0 14px;
-  }
+}
 
-  #lobby .version {
-    font-size: 8px;
-    position: absolute;
-    bottom: 0;
-    right: 8px;
-  }
+form {
+  font-size: 0.85em;
+}
 
-  #lobby section {
-    width: 48%;
-    min-width: 200px;
-    float: left;
-    vertical-align: top;
-    margin: 10px 0;
-  }
+#select-character {
+  margin: 15px 0;
+  display: flex;
+}
 
-    #lobby form > div {
-      margin: 15px 0;
-      font-size: 0.85em;
-    }
+#select-character > label {
+  display: block;
+  position: relative;
+  padding: 5px 10px 5px 0;
+}
 
-    #lobby #select-character > label {
-      display: block;
-      float: left;
-      position: relative;
-      padding: 5px 10px;
-    }
-    #lobby #select-character > label > div,
-    #lobby #select-character > label > span {
-      position: relative;
-      vertical-align: middle;
-    }
+.preview {
+  width: 32px;
+  height: 42px;
+  display: inline-block;
+  vertical-align: middle;
+  border: solid 1px #fff;
+  padding: 0 3px;
+}
 
-    #lobby .preview {
-      width: 32px;
-      height: 42px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    #lobby [for=type_ninja] .preview {
-      background: url("../images/characters/ninja/spritesheet.png") -16px -27px no-repeat;
-      height: 32px;
-      border-bottom: solid 10px transparent;
-    }
-    #lobby [for=type_sumo] .preview {
-      background: url("../images/characters/sumo/spritesheet.png") -16px -22px no-repeat;
-    }
-    #lobby [for=type_pixelninja] .preview {
-      background: url("../images/characters/ninja/ninja1.png") 0 7px no-repeat;
-    }
+[for=type-ninja] .preview {
+  background: url("../images/characters/ninja/spritesheet.png") -16px -27px no-repeat;
+}
+[for=type-sumo] .preview {
+  background: url("../images/characters/sumo/spritesheet.png") -16px -22px no-repeat;
+}
+[for=type-pixelninja] .preview {
+  background: url("../images/characters/ninja/ninja1.png") 0 7px no-repeat;
+}
+input[type=radio] {
+  display: none;
+}
+input:checked + .preview {
+  background-color: #fff;
+  border: solid 1px #000;
+  padding: 0 3px;
+}
 
-    #lobby #select-character > label:first-child input {
-      border-radius: 5px 0 0 5px;
-    }
-    #lobby #select-character > label:last-child input {
-      border-radius: 0 5px 5px 0;
-    }
-    #lobby input[type=radio] {
-      display: block;
-      position: absolute;
-      border: solid 1px #888;
-      -webkit-appearance: none;
-      background: #eee;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: 0;
-      z-index: 0;
-      box-shadow: 1px 1px 3px #666;
-    }
-    #lobby input[type=radio]:checked {
-      background: #d3d3d3;
-      box-shadow: 1px 1px 3px #333 inset;
-    }
-      #lobby input[type=radio] span {
-        position: relative;
-        font-size: 0.75em;
-      }
-
-    #lobby #name {
-      border: solid 1px #888;
-      border-radius: 5px;
-      box-shadow: 1px 1px 4px #333 inset;
-      padding: 14px 10px;
-      outline: none;
-    }
-
-    #lobby #preview {
-      width: 80%;
-      height: 30%;
-      margin: auto;
-      border: solid 2px #fff;
-      border-radius: 4px;
-    }
+#name {
+  border: solid 1px #888;
+  padding: 14px 10px;
+  outline: none;
+}
     
-    #lobby .btn {
-      display: inline-block;
-      padding: 8px;
-      border-radius: 4px;
-      color: white;
-      background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0.15, rgb(4,136,203)),
-        color-stop(0.58, rgb(30,164,244)),
-        color-stop(0.79, rgb(57,197,255))
-      );
-      background-image: -moz-linear-gradient(
-        center bottom,
-        rgb(4,136,203) 15%,
-        rgb(30,164,244) 58%,
-        rgb(57,197,255) 79%
-      );
-      border: solid 1px #fff;
-      text-decoration: none;
-      box-shadow: 1px 1px 4px #333;
-      text-shadow: 1px 1px 1px #333;
-    }
-    #lobby .btn:active {
-      margin: 1px 1px;
-      box-shadow: 1px 1px 4px #333 inset;
-    }
-    
-    .info {
-      font-size: 11px;
-      line-height: 14px;
-    }
-    #lobby  author {
-      display: block;
-      font-style: italic;
-      text-align: right;
-    }
+button {
+  display: inline-block;
+  padding: 14px;
+  color: white;
+  background-color: rgb(57, 197, 255);
+  border: solid 1px #fff;
+  text-decoration: none;
+}
+button:active {
+  box-shadow: 0 0 3px #000 inset;
+}
 
-    .clear {
-      clear: both;
-    }
-
-
-
-
+.info {
+  font-size: 11px;
+  line-height: 14px;
+}

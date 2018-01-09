@@ -3,120 +3,87 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Bryce Liiru - A Game of Heroes and Villains</title>
-    <script type="text/javascript" src="js/lib/jquery-1.6.2.min.js"></script>
-<!--
-    <script type="text/javascript" src="js/lib/appendto-jquery-mockjax-96a2a52/jquery.mockjax.js"></script>
-    <script type="text/javascript" src="js/mock/gameserver.js"></script>
--->
-    <script type="text/javascript" src="js/lobby.js"></script>
-
     <link href='http://fonts.googleapis.com/css?family=Federo' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/main.css" type="text/css" />
-    <link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/lobby.css" type="text/css" />
-    <link rel="stylesheet" href="css/lib/grid.css" type="text/css" />
 
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-
-    <script type="text/javascript">
-    
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-805443-8']);
-      _gaq.push(['_trackPageview']);
-    
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    
-    </script>
   </head>
   
-  <body id="lobby" class="center">
-  
-  <header>
-    <h1>Bryce Liiru</h1>
-    <div id="current-game">
-      <b>Current game:</b>
-      <span>Players: <span id="players"></span></span>
-      <span>Rooms: <span id="rooms"></span></span>
-      <span>Runtime: <span id="runtime"></span></span>
-    </div>
-  </header>
+  <body>
 
-  <section>
+    <div class="center">
     
-    <h2>Choose your character</h2>
-     
-    <form action="javascript:;">
-    
-    <div id="select-character" class="clearfix">
-      <label for="type_ninja">
-        <input id="type_ninja" type="radio" name="type" value="ninja" checked />
-        <div class="preview"></div>
-        <span>Ninja</span>
-      </label>
-      <label for="type_sumo">
-        <input id="type_sumo" type="radio" name="type" value="sumo" />
-        <div class="preview"></div>
-        <span>Sumo</span>
-      </label>
-      <label for="type_pixelninja">
-        <input id="type_pixelninja" type="radio" name="type" value="pixelNinja" />
-        <div class="preview"></div>
-        <span>Pixel Ninja</span>
-      </label>
-    </div>
-    
-    <div>
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" />
-      <a id="join" class="btn" href="game.html">Enter the world</a>
-    </div>
+      <header>
+        <h1>Bryce Liiru</h1>
+        <div id="current-game">
+          <b>Current game</b>
+          <span>Players: <span id="players"></span></span>
+          <span>Rooms: <span id="rooms"></span></span>
+          <span>Runtime: <span id="runtime"></span></span>
+        </div>
+      </header>
 
-    <!--
-    <div>
-    <label for="color">color:</label>
-    <input type="color" id="color" name="color" />
-    </div>
-    
-    <div>
-    <label for="eyecolor">eye color:</label>
-    <input type="color" id="eyecolor" name="eyecolor" />
-    </div>
-    -->
-    
-    </form>
-  </section>
-  
-  <section>
-    <h2>This is...</h2>
+      <div class="columns">
 
-    <div class="info">
-      ...a test and demonstration application of<br>
-      <ul>
-        <li><a href="http://websocket.org/aboutwebsocket.html">websockets</a></li>
-        <li><a href="http://nodejs.org/">node.js</a></li>
-        <li><a href="https://github.com/Akihabara/akihabara">and javascript as a game platform.</a></li>
-      </ul>
-        Written purely for the love of js<br>
-        (and the boredom of what is known as enterprise).<br><br>
-        It's seems to work best with safari, ipad and even iphone (slow).
-        Chrome and Fox are not happy about web socket over da internet for some odd reason.
-        The game requires <a href="http://caniuse.com/#search=socket">a web socket enabled browser</a> to work.
-        Most likely contains bugs and I won't be held responsible
-        if your computer explodes or if you get fired for playing 
-        games while you should be working.<br><br>
-      <author> - Tuomas Nylund</author>
-    </div>
-    
-  </section>
-  
-  <div class="clear"></div>
+        <section>
+          
+          <h2>Choose your character</h2>
+          
+          <form action="javascript:;">
+            
+            <div id="select-character" class="clearfix">
+              <label for="type-ninja">
+                <input id="type-ninja" type="radio" name="type" value="ninja" checked />
+                <div class="preview"></div>
+              </label>
+              <label for="type-sumo">
+                <input id="type-sumo" type="radio" name="type" value="sumo" />
+                <div class="preview"></div>
+              </label>
+              <label for="type-pixelninja">
+                <input id="type-pixelninja" type="radio" name="type" value="pixelNinja" />
+                <div class="preview"></div>
+              </label>
+            </div>
+            
+            <div>
+              <input type="text" id="name" name="name" placeholder="Name" />
+              <button type="submit">Enter the world</a>
+            </div>
 
-  <span class="version">version 0.6.6 - coded mostly on mouch couch with my ipad</span>
+          </form>
+        </section>
+        
+        <section>
+          <h2>This is...</h2>
+
+          <div class="info">
+            ...a test and demonstration application of<br>
+            <ul>
+              <li><a href="http://websocket.org/aboutwebsocket.html">websockets</a></li>
+              <li><a href="http://nodejs.org/">node.js</a></li>
+              <li><a href="https://github.com/Akihabara/akihabara">and javascript as a game platform.</a></li>
+            </ul>
+              The game requires <a href="http://caniuse.com/#search=socket">a web socket enabled browser</a> to work.
+              Most likely contains bugs and I won't be held responsible
+              if your computer explodes or if you get fired for playing 
+              games while you should be working.<br><br>
+          </div>
+          
+        </section>
+      
+      </div>
+
+    </div>
   
+    <script async src="js/lobby.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-805443-8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-805443-8');
+    </script>
   </body>
   
 </html>

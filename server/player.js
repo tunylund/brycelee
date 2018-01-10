@@ -13,7 +13,7 @@ let id = 0
 
 class Player {
 
-  constructor() {
+  constructor(client) {
     this.gemCount = 0
     this.isStriking = false
     this.x = 0
@@ -30,9 +30,7 @@ class Player {
     this.hh = this.h/2
     this.client = client || {on: () => {}, emit: () => {}, send: () => {}}
     this.isDead = true
-    this.dyingTime = new Date().getTime()
     this.timeUntilRespawn = 4000
-    this.lagChecks = []
   }
 
   toJson () {
@@ -50,12 +48,6 @@ class Player {
     if(this.isDead) return
 
     const status = msg
-    
-    if(status.time) {
-      const now = new Date()
-      const utcTime = now.getTime() + now.getTimezoneOffset()*60000
-      this.lagChecks.push(utcTime - status.time)
-    }
     
     status.id = this.id
     status.isStriking = this.canStrike() ? status.isStriking : false
@@ -95,14 +87,12 @@ class Player {
   }
   
   spawn () {
-    if(this.isDead && new Date().getTime() - this.dyingTime > this.timeUntilRespawn) {
-      this.isDead = false
-      this.x = Math.floor(Math.random()*1000)%250
-      this.y = Math.floor(Math.random()*1000)%100
-      this.collision = this.characterType.collisions[0]
-      this.client.json.emit("spawn", this.toJson())
-      this.client.broadcast.json.emit("enemySpawn", this.toJson())
-    }
+    this.isDead = false
+    this.x = Math.floor(Math.random()*1000)%250
+    this.y = Math.floor(Math.random()*1000)%100
+    this.collision = this.characterType.collisions[0]
+    this.client.json.emit("spawn", this.toJson())
+    this.client.broadcast.json.emit("enemySpawn", this.toJson())
   }
   
   canStrike () {
@@ -112,7 +102,6 @@ class Player {
   die () {
     this.isDead = true
     this.isStriking = false
-    this.dyingTime = new Date().getTime()
     this.client.emit("death")
     this.client.broadcast.emit("enemyDeath", this.id)
     setTimeout(() => this.spawn(), this.timeUntilRespawn)

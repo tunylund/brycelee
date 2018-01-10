@@ -1,62 +1,124 @@
-var Player = function(options) {
+// connection
 
-  if(!options || !options.id || !options.characterType)
-    throw new Exception("options are lacking attributes");
-    
-  help.mergeWithModel(this, options);
-  this.init();
-  toys.brucelee.spawn(this);
+class Player extends Character {
   
-}
+  constructor (options) {
+    super(options)
+  }
 
-Player.prototype = help.mergeWithModel({
-  first: function() {
-    this.counter=(this.counter+1)%64;
+  first () {
+    this.counter=(this.counter+1)%64 
     
-    var tb = toys.brucelee;
+    toys.platformer.applyGravity(this) 
+    this._horizontalKeys() 
+    this._verticalTileCollision(); // vertical tile collision (i.e. floor)
+    this._horizontalTileCollision(); // horizontal tile collision (i.e. walls)
+    this._ladderTileCollision() 
+    this._gemCollision() 
+    this._strikeKeys() 
+    this._strikeCollision()
+    this._jumpKeys() 
+    this._climbKeys() 
+    this._handleAccellerations()
 
-    tb.applyGravity(this);
-    tb.horizontalKeys(this);
-    tb.verticalTileCollision(this); // vertical tile collision (i.e. floor)
-    tb.horizontalTileCollision(this); // horizontal tile collision (i.e. walls)
-    tb.ladderTileCollision(this);
-    tb.gemCollision(this);
-    tb.strikeKeys(this);
-    tb.strikeCollision(this);
-    tb.jumpKeys(this);
-    tb.climbKeys(this);
-    tb.handleAccellerations(this);
-
-    tb.setSide(this); // set horizontal side
-    tb.setFrame(this); // set the right animation frame
-    tb.setCollision(this);
+    toys.platformer.setSide(this) // set horizontal side
+    this._setFrame() // set the right animation frame
+    this._setCollision() 
     
     if(this.isStriking && help.isLastFrameOnce(this.counter, this.frames.strike)) {
-       this.isStriking = false;
-       tb.clearKillOrders();
+       this.isStriking = false 
+       Player.clearKillOrders()
     }
     
-    if(!this.isDead && tb.stateChanged(this, this.st))
-      Connection.update(this.status());
-  },
+    if(!this.isDead && this._stateChanged(this, this._previousStatus))
+      Connection.update(this.status()) 
+  }
   
-  status: function() {
-    this.st = {
+  status () {
+    this._previousStatus = {
       accx: this.accx,
       accy: this.accy,
       x: this.x,
       y: this.y,
       isStriking: this.isStriking,
       frame: this.frame
-    };
-    return this.st;
-  },
+    } 
+    return this._previousStatus 
+  }
   
-  die: function() {
-    this.isDead = true;
-    this.isStriking = false;
-    toys.brucelee.setFrame(this); // set the right animation frame
-    Connection.update(this.status());
+  die () {
+    this.isDead = true 
+    this.isStriking = false 
+    this._setFrame() // set the right animation frame
+    Connection.update(this.status()) 
   }
 
-}, Character.prototype);
+  static clearKillOrders  () {
+    const players = gbox.getGroup("players") 
+    for(let id in players) {
+      let p = players[id] 
+      p.vaitingForKillOrder = false 
+    }
+  }
+
+  _horizontalKeys  () {
+    const keys = { left: 'left', right: 'right' },
+          maxaccx = this.touchedLadder ? this.climbaccx : this.maxaccx 
+    
+    if (this.isStriking || this.isDead) {
+      this.pushing=toys.PUSH_NONE 
+    } 
+    
+    else if (gbox.keyIsPressed(keys.left)) {
+      this.pushing=toys.PUSH_LEFT 
+      this.accx=help.limit(this.accx-1,-maxaccx,maxaccx) 
+    } 
+    
+    else if (gbox.keyIsPressed(keys.right)) {
+      this.pushing=toys.PUSH_RIGHT 
+      this.accx=help.limit(this.accx+1,-maxaccx,maxaccx) 
+    } 
+    
+    else this.pushing=toys.PUSH_NONE 
+    
+  }
+
+  _strikeKeys () {
+    const key = {strike: 'ctrl', b: 'b'} 
+    if (this._canStrike()
+        && (gbox.keyIsHit(key.strike) || gbox.keyIsHit(key.b))) {
+        this.counter = 0 
+        this.isStriking = true 
+        return true 
+    }
+  }
+  
+  _jumpKeys () {
+      const key = { jump: 'up', a: 'a' } 
+      if (this._canJump()
+        && (gbox.keyIsHold(key.jump) || gbox.keyIsHold(key.a))
+        && (this.curjsize==0)) {
+        this.accy=-this.jumpaccy 
+        this.curjsize=this.jumpsize 
+        this.isStriking = false 
+      } else if (this.curjsize
+        && (gbox.keyIsHold(key.jump) || gbox.keyIsHold(key.a))) { // Jump modulation
+        this.accy-- 
+        this.curjsize-- 
+        this.isStriking = false 
+      } else
+        this.curjsize=0 
+  }
+
+  _stateChanged (st) {
+    if(!st)
+      return true 
+    
+    for(let i in st) {
+      if(i != "frame" && i != "time" && st[i] !== this[i]) 
+        return true 
+    }
+    return false 
+  }
+
+}

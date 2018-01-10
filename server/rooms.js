@@ -1,4 +1,4 @@
-const gemInterval = 30000
+const gemInterval = 1000
 const characterCheckInterval = 30000
 const treasureOriginTile = '+'
 
@@ -15,7 +15,7 @@ class Room {
   createGems () {
     for(let y=0, l=this.room.map.length; y<l; y++) {
       for(let x=0, k=this.room.map[y].length; x<k; x++) {
-        if(this.room.map[y][x] == this.treasureOriginTile) {
+        if(this.room.map[y][x] == treasureOriginTile) {
           const gem = { id: x + "," + y,  status: true, x, y }
           this.gems[gem.id] = gem
         }
@@ -136,7 +136,6 @@ module.exports.rooms = [
   },
   {
     id: "room_0",
-    treasureOriginTile: '+',
     treasureTile: 9,
     tileset: 'asiaTiles',
     backgroundImageUrl: 'images/maps/asia_bg.jpg',

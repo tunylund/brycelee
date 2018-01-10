@@ -1,4 +1,4 @@
-const Player = require('./player.js').Player,
+const Player = require('./player.js'),
       rooms = require('./rooms.js'),
       characterTypes = require('./charactertypes.js').characterTypes
 
@@ -59,13 +59,14 @@ module.exports.game = {
     player.client.json.emit('join', {
       room: room.toJson(),
       player: player.toJson(),
-      enemies: this.players.filter(p => p.id !== player.id && !p.isDead).toJson(),
-      spawntime: player.timeUntilRespawn / 1000
+      enemies: this.players
+        .filter(p => p.id !== player.id && !p.isDead)
+        .map(p => p.toJson())
     })
+    player.spawn()
   },
   
   onMessage: function (message, player) {
-    console.log("onMessage: " + message)
     switch(message) {
       case "requestSpawn":
         player.spawn()

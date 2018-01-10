@@ -24,6 +24,16 @@ html {
   right: 0;
 }
 
+#instructions {
+  position: absolute;
+  top: 1em;
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  margin: 0 20px;
+  width: 100%;
+}
+
 body canvas {
   box-shadow: 0 0 64px black;
   position: relative;
@@ -53,77 +63,4 @@ body .pad > div {
 a,
 a:visited {
   color: #00f;
-}
-
-
-@media (max-width: 850px) {
-  #controls {
-    display: none;
-  }
-}
-
-#controls {
-  position: absolute;
-  right: 100px;
-  top: 50%;
-  height: 100px;
-  margin-top: -50px;
-  color: #fff;
-}
-
-#controls span {
-  border: solid 1px #444;
-  display: block;
-  position: absolute;
-  border-radius: 4px;
-  font-size: 11px;
-  width: 25px;
-  height: 25px;
-  text-align: center;
-  background-color: #CCC;
-  color: black;
-  text-shadow: -1px -1px 1px white;
-  box-shadow: 0px 0px 4px white inset;
-  line-height: 25px;
-}
-
-#controls .u {
-  top: 0;
-  left: 25px;
-}
-#controls .l, #controls .d, #controls .r {
-  top: 25px;
-}
-#controls .l {
-  left: 0;
-}
-#controls .d {
-  left: 25px;
-}
-#controls .r {
-  left: 50px;
-}
-#controls .ctrl {
-  top: 60px;
-  left: 0;
-}
-#controls .l::before {
-  content: "move";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 20px;
-  text-shadow: none;
-  color: white;
-  width: 50px;
-}
-#controls .ctrl::before {
-  content: "strike";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 20px;
-  text-shadow: none;
-  color: white;
-  width: 50px;
 }

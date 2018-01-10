@@ -38,16 +38,14 @@ Map.prototype = {
           s = this._bgSize,
           chars = gbox.getGroup('players');
 
-      if(maingame.toys['fadein'].fade > 0) {
-        var draw = {
-          dx: 0, dy: 0, dw: this.w, dh: this.h,
-          sourcecamera: true,
-          parallaxx: 0.5, 
-          parallaxy: 0.5
-        };
-        gbox.blit(ctx, this._bgimg, draw);
-        gbox.blit(ctx, this._tilecanvas, draw);
-      }
+      var draw = {
+        dx: 0, dy: 0, dw: this.w, dh: this.h,
+        sourcecamera: true,
+        parallaxx: 0.5, 
+        parallaxy: 0.5
+      };
+      gbox.blit(ctx, this._bgimg, draw);
+      gbox.blit(ctx, this._tilecanvas, draw);
       
       while(this._coverables.length > 0) {
         var draw = this._coverables.splice(0,1)[0];

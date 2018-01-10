@@ -1,51 +1,70 @@
-var AutoPlayer = function(options) {
-
-  if(!options || !options.id || !options.characterType)
-    throw new Exception("options are lacking attributes");
-    
-  help.mergeWithModel(this, options);
-  this.init();
-  toys.brucelee.spawn(this);
+class AutoPlayer extends Character {
   
-}
-
-AutoPlayer.prototype = help.mergeWithModel({
-
-  spawnTime: 15000,
-
-  first: function() {
-    this.counter=(this.counter+1)%64;
-    
-    var tb = toys.brucelee;
-    
-    tb.applyGravity(this);
-    tb.autoEnemy.horizontalKeys(this);
-    tb.verticalTileCollision(this); // vertical tile collision (i.e. floor)
-    tb.horizontalTileCollision(this); // horizontal tile collision (i.e. walls)
-    tb.ladderTileCollision(this);
-    tb.gemCollision(this);
-    tb.strikeCollision(this);
-    tb.autoEnemy.jumpKeys(this);
-    tb.climbKeys(this);
-    tb.handleAccellerations(this);
-
-    tb.setSide(this); // set horizontal side
-    tb.setFrame(this); // set the right animation frame
-    tb.setCollision(this);
-    
-    if(this.isStriking && help.isLastFrameOnce(this.counter, this.frames.strike)) {
-       this.isStriking = false;
-    }
-  },
-  
-  die: function() {
-    this.isDead = true;
-    this.isStriking = false;
-    toys.brucelee.setFrame(this); // set the right animation frame
-    setTimeout($.proxy(function() {
-      this.isDead = false;
-      toys.brucelee.setFrame(this); // set the right animation frame
-    }, this), this.spawnTime);
+  constructor (options) {
+    super(options)
   }
 
-}, Character.prototype);
+  get spawnTime() { return 15000 }
+
+  first () {
+    this.counter=(this.counter+1)%64
+    
+    toys.platformer.applyGravity(this)
+    this._horizontalKeys()
+    this._verticalTileCollision(); // vertical tile collision (i.e. floor)
+    this._horizontalTileCollision(); // horizontal tile collision (i.e. walls)
+    this._ladderTileCollision()
+    this._gemCollision()
+    this._strikeCollision()
+    this._jumpKeys()
+    this._climbKeys()
+    this._handleAccellerations()
+
+    toys.platformer.setSide(this); // set horizontal side
+    this._setFrame(); // set the right animation frame
+    this._setCollision()
+    
+    if(this.isStriking && help.isLastFrameOnce(this.counter, this.frames.strike)) {
+       this.isStriking = false
+    }
+  }
+  
+  die () {
+    this.isDead = true
+    this.isStriking = false
+    this._setFrame() // set the right animation frame
+    setTimeout(() => {
+      this.isDead = false
+      this._setFrame() // set the right animation frame
+    }, this.spawnTime)
+  }
+
+  _horizontalKeys () {
+
+    const pl = gbox.player,
+          maxaccx = this.touchedLadder ? this.climbaccx : this.maxaccx
+    
+    if (this.isStriking || this.isDead) {
+      this.pushing=toys.PUSH_NONE
+    } else if (pl.x < this.x) {
+        this.pushing=toys.PUSH_LEFT
+        this.accx=help.limit(this.accx-1,-maxaccx,maxaccx)
+    } else if (pl.x > this.x) {
+        this.pushing=toys.PUSH_RIGHT
+        this.accx=help.limit(this.accx+1,-maxaccx,maxaccx)
+    } else this.pushing=toys.PUSH_NONE
+  }
+
+  _jumpKeys () {
+    const pl = gbox.player
+    if (this._canJump()&&pl.y<this.y&&(this.curjsize==0)) {
+        this.accy=-this.jumpaccy
+        this.curjsize=this.jumpsize
+    } else if (this.curjsize&&pl.y<this.y) { // Jump modulation
+        this.accy--
+        this.curjsize--
+    } else
+        this.curjsize=0
+  }
+
+}

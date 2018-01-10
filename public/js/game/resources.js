@@ -3,7 +3,7 @@ gbox.onLoad(function() {
     gbox.addImage('largefont', "images/font_anonymous_pro_regular_16px.png");
     gbox.addImage('mediumfont', "images/font_anonymous_pro_regular_12px.png");
     gbox.addImage('smallfont', "images/font_anonymous_pro_regular_9px.png");
-    gbox.addImage('logo', "images/grails_logo.png");
+    // gbox.addImage('logo', "images/grails_logo.png");
     gbox.addImage('mapSpritesheet', "images/maptiles.png");
     gbox.addImage('asiaTiles', "images/maps/asia_tiles.png");
 
@@ -71,17 +71,5 @@ gbox.onLoad(function() {
       gapx: 0, 
       gapy: 0 
     });
-    
-    /*
-    gbox.addRoom({
-      id: 'room',
-      url: '/game/room'
-    });
-    
-    gbox.addPlayer({
-      url: '/game/player'
-    });
-    */
-    gbox.setDebugFont("js/lib/akihabara-core-1.3.1/akihabara/debugfont.png");
-    
+
 });

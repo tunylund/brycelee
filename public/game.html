@@ -3,15 +3,11 @@
   <head>
     <title>Bryce Liiru - A Game of Heroes and Villains</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" href="css/main.css" type="text/css" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/game/msgformat.js"></script>
     <script src="js/lib/jquery-1.6.2.min.js"></script>
-    <!--
-    <script src="js/lib/appendto-jquery-mockjax-96a2a52/jquery.mockjax.js"></script>
-    <script src="js/mock/gameserver.js"></script>
-    -->
     <script src="js/lib/akihabara-core-1.3.1/akihabara/gbox.js"></script>
     <script src="js/game/iphopad.js"></script>
     <script src="js/lib/akihabara-core-1.3.1/akihabara/trigo.js"></script>
@@ -20,12 +16,10 @@
     <script src="js/lib/akihabara-core-1.3.1/akihabara/tool.js"></script>
     <script src="js/lib/akihabara-core-1.3.1/akihabara/gamecycle.js"></script>
     <script src="js/game/connection.js"></script>
-    <script src="js/game/bruceleeToys.js"></script>
     <script src="js/game/charactertype.js"></script>
     <script src="js/game/character.js"></script>
     <script src="js/game/autoplayer.js"></script>
     <script src="js/game/player.js"></script>
-    <script src="js/game/conf.js"></script>
     <script src="js/game/gbox_bl.js"></script>
     <script src="js/game/map.js"></script>
     <script src="js/game/gem.js"></script>
@@ -45,14 +39,9 @@
   
   <body>
 
-    <div id="controls">
-      <div class="move">
-        <span class="l">&larr;</span>
-        <span class="u">&uarr;</span>
-        <span class="r">&rarr;</span>
-        <span class="d">&darr;</span>
-      </div>
-      <span class="ctrl">ctrl</span>
+    <div id='msg' class='msg'></div>
+    <div id="instructions">
+      Arrow keys for moving, 'ctrl' for striking. Firefox users need to enable `dom.moduleScripts.enabled` at about:config.
     </div>
 
     <div id="lag">

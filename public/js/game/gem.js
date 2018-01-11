@@ -1,9 +1,12 @@
 class Gem {
   
-  constructor(gem) {
+  constructor(id, status, x, y) {
+    this.id = id
+    this.status = status
+    this.x = x
+    this.y = y
     this.group = 'gems'
     this.delta = 0.025
-    Object.assign(this, gem)
     let map = gbox.getRoom()
     this.tileset = map.tileset
     this.blitOpts = {

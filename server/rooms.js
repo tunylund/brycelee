@@ -1,11 +1,9 @@
-const gemInterval = 1000
+const gemInterval = 30000
 const characterCheckInterval = 30000
-const treasureOriginTile = '+'
 
 class Room {
 
-  constructor(room, game) {
-    this.game = game
+  constructor(room) {
     this.room = room
     this.players = []
     this.gems = {}
@@ -15,7 +13,7 @@ class Room {
   createGems () {
     for(let y=0, l=this.room.map.length; y<l; y++) {
       for(let x=0, k=this.room.map[y].length; x<k; x++) {
-        if(this.room.map[y][x] == treasureOriginTile) {
+        if(this.room.map[y][x] == this.room.treasureOriginTile) {
           const gem = { id: x + "," + y,  status: true, x, y }
           this.gems[gem.id] = gem
         }
@@ -29,7 +27,7 @@ class Room {
       const gem = this.gems[i]
       if(!gem.status) {
         gem.status = true
-        newGems.push(gem.id)
+        newGems.push(gem)
       }
     }
     if(newGems.length > 0)
@@ -41,7 +39,7 @@ class Room {
           newGems = []
     if(gem && !gem.status) {
         gem.status = true
-        newGems.push(gem.id)
+        newGems.push(gem)
         this.sendGems(newGems)
     }
   }
@@ -71,8 +69,12 @@ class Room {
   pickGem (gemId, player) {
     if (this.gems[gemId] && this.gems[gemId].status) {
       player.gemCount++
+      player.client.emit('gemCount', player.gemCount)
       this.gems[gemId].status = false
       this.sendGemRemove(gemId)
+      if (player.gemCount === 3) {
+        
+      }
       setTimeout(() => this.checkGem(gemId), gemInterval)
     }
   }
@@ -80,18 +82,20 @@ class Room {
   toJson () {
     return {
       room: this.room,
-      gems: this.gems
+      gems: Object.values(this.gems)
     }
   }
   
 }
 
-module.exports.Room = Room
+module.exports.buildRoom = ix => new Room(rooms[ix])
 
-module.exports.rooms = [
+const rooms = [
   {
     id: "room_1",
     backgroundImageUrl: "images/bg.png",
+    treasureTile: null,
+    treasureOriginTile: null,
     tileset: 'mapTiles',
     characterMap: [ 
       [null, ' '], 
@@ -139,6 +143,7 @@ module.exports.rooms = [
     treasureTile: 9,
     tileset: 'asiaTiles',
     backgroundImageUrl: 'images/maps/asia_bg.jpg',
+    treasureOriginTile: '+',
     characterMap: [
       [null, ' '],
       [0, '%'],

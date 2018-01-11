@@ -43,9 +43,9 @@ Object.assign(gbox, {
   },
   
   _gems: {},
-  addGems: function(gems = {}) {
-    for (id in gems) {
-      const gem = new Gem(gems[id])
+  addGems: function(gems = []) {
+    for (let {id, status, x, y} of gems) {
+      const gem = new Gem(id, status, x, y)
       this.addObject(gem)
       this._gems[id] = gem
     }
@@ -80,7 +80,22 @@ Object.assign(gbox, {
   addPlayer: function(player) {
     this.addCharacterType(player.characterType)
     this.player = new Player(player)
+  },
+
+  _autoPlayers: [],
+  addAutoplayer: function(charType) {
+    this.addCharacterType(charType)
+    const autoPlayer = new AutoPlayer({
+      id: 'autoplayer-' + this._autoPlayers.length,
+      characterType: charType,
+      x: 40, y: 40
+    })
+    this.addObject(autoPlayer)
+    this._autoPlayers.push(autoPlayer)
+  },
+  removeAutoPlayers: function () {
+    this._autoPlayers.map(p => gbox.trashObject(p))
+    this._autoPlayers = []
   }
 
-  
 });

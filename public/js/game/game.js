@@ -26,10 +26,22 @@ const game = {
   
   onConnectionReady: function() {
     gbox.loadAll()
+
+    function random(obj) {
+      const keys = Object.keys(obj)
+      return obj[keys[help.random(0, keys.length)]]
+    }
+
+    function spawnTimer () {
+      if(Object.values(gbox._characters).length === 0 && gbox._autoPlayers.length < 3) {
+        gbox.addAutoplayer(random(characterTypes))
+      }
+      setTimeout(spawnTimer, 4000)
+    }
+    setTimeout(spawnTimer, 4000)
   },
 
   onResourcesReady: function() {
-  
     this.map = gbox.getRoom()
     game.map.prepare()
     gbox.addObject(game.map)

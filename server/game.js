@@ -9,7 +9,7 @@ module.exports.game = {
   rooms: [],
   
   initNewGame: function () {
-    const room = new rooms.Room(rooms.rooms[1], this)
+    const room = rooms.buildRoom(1, this)
     this.rooms.push(room)
   },
   
@@ -40,6 +40,7 @@ module.exports.game = {
     on('joinRequest', (...args) => this.onJoinRequest(...args, player))
     client.on('update', (...args) => player.update(...args))
     on('kill', (...args) => this.onKill(...args, player))
+    client.on('getLag', () => this.onGetLag(player))
     on('message', (...args) => this.onMessage(...args, player))
     on('disconnect', (...args) => this.onDisconnect(...args, player))
   },
@@ -65,16 +66,17 @@ module.exports.game = {
     })
     player.spawn()
   },
+
+  onGetLag: function (player) {
+    const now = new Date(),
+          lag = now.getTime() + now.getTimezoneOffset()*60000
+    player.client.json.emit("lagCheck", { lag })
+  },
   
   onMessage: function (message, player) {
     switch(message) {
       case "requestSpawn":
         player.spawn()
-        break
-      case "getLag":
-        const now = new Date(),
-              lag = now.getTime() + now.getTimezoneOffset()*60000
-        player.client.json.emit("lagCheck", { lag })
         break
     }
   },
@@ -99,7 +101,7 @@ module.exports.game = {
   },
   
   isKillable: function (victim, player) {
-    return !victim.isDead && victim.id != player.id
+    return !victim.isDead
   }
 
 }

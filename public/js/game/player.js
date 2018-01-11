@@ -4,6 +4,8 @@ class Player extends Character {
   
   constructor (options) {
     super(options)
+    this.gemCount = 0
+    this._previousStatus = {}
   }
 
   first () {
@@ -30,25 +32,28 @@ class Player extends Character {
        Player.clearKillOrders()
     }
     
-    if(!this.isDead && this._stateChanged(this, this._previousStatus))
-      Connection.update(this.status()) 
+    const status = this.status()
+    if(!this.isDead && this._stateChanged(status, this._previousStatus)) {
+      Connection.update(status)
+      this._previousStatus = status
+    }
   }
   
   status () {
-    this._previousStatus = {
+    return {
       accx: this.accx,
       accy: this.accy,
       x: this.x,
       y: this.y,
       isStriking: this.isStriking,
       frame: this.frame
-    } 
-    return this._previousStatus 
+    }
   }
   
   die () {
     this.isDead = true 
     this.isStriking = false 
+    this.vaitingForKillOrder = false
     this._setFrame() // set the right animation frame
     Connection.update(this.status()) 
   }
@@ -110,15 +115,12 @@ class Player extends Character {
         this.curjsize=0 
   }
 
-  _stateChanged (st) {
-    if(!st)
-      return true 
-    
-    for(let i in st) {
-      if(i != "frame" && i != "time" && st[i] !== this[i]) 
-        return true 
+  _stateChanged (a, b) {
+    for(let i in a) {
+      if(i != "frame" && i != "time" && a[i] !== b[i])
+        return true
     }
-    return false 
+    return false
   }
 
 }

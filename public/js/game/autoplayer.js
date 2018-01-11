@@ -15,9 +15,10 @@ class AutoPlayer extends Character {
     this._horizontalTileCollision(); // horizontal tile collision (i.e. walls)
     this._ladderTileCollision()
     this._gemCollision()
-    this._strikeCollision()
     this._jumpKeys()
     this._climbKeys()
+    this._strikeKeys()
+    this._strikeCollision()
     this._handleAccellerations()
 
     toys.platformer.setSide(this); // set horizontal side
@@ -40,7 +41,6 @@ class AutoPlayer extends Character {
   }
 
   _horizontalKeys () {
-
     const pl = gbox.player,
           maxaccx = this.touchedLadder ? this.climbaccx : this.maxaccx
     
@@ -65,6 +65,28 @@ class AutoPlayer extends Character {
         this.curjsize--
     } else
         this.curjsize=0
+  }
+
+  _strikeKeys () {
+    if(this._canStrike()) {
+      const aColl = getAbsCollision(this)
+      let players = gbox.getGroup("players")
+      for(let id in players) {
+        let p = players[id]
+        const pColl = getAbsCollision(p)
+        let dist = trigo.getDistance({
+          x: aColl.x + aColl.hw,
+          y: aColl.y + aColl.hh,
+        }, {
+          x: pColl.x + pColl.hw,
+          y: pColl.y + pColl.hh,
+        })
+        if(p.id != this.id && !p.isDead && dist <= this.hw) {
+          this.counter = 0 
+          this.isStriking = true 
+        }
+      }
+    }
   }
 
 }

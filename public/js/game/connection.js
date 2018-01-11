@@ -32,25 +32,6 @@ const Connection = {
       for(let enemy of response.enemies) {
         gbox.addCharacter(enemy)
       }
-  
-      if(response.enemies.length == 0) {      
-        let charType = null
-        while(!charType) {
-          for(let i in characterTypes) {
-            if(Math.random() > 0.75)
-              charType = characterTypes[i]
-          }
-        }
-        setTimeout(function() {
-          gbox.addCharacterType(charType)
-          gbox.autoplayer = new AutoPlayer({
-            id: "autoplayer",
-            characterType: charType,
-            x: 40, y: 40
-          })
-          gbox.addObject(gbox.autoplayer)
-        },7000)
-      }
       game.onConnectionReady()
     })
 
@@ -72,10 +53,7 @@ const Connection = {
     on('enemySpawn', enemy => {
       gbox.addCharacter(enemy)
       gbox.addObject(gbox._characters[enemy.id])
-      if(gbox.autoplayer) {
-        gbox.trashObject(gbox.autoplayer)
-        gbox.autoplayer = null
-      }
+      gbox.removeAutoPlayers()
     })
     on('enemyDeath', id => gbox._characters[id].die())
     on('enemyDisconnect', id => {
@@ -84,11 +62,14 @@ const Connection = {
     })
     on('gemBirth', gems => gbox.addGems(gems))
     on('gemRemove', id => gbox.removeGem(id))
+    on('gemCount', gemCount => {
+      gbox.player.gemCount = gemCount
+    })
 
     this.socket.on('enemyUpdate', status => gbox._characters[status.id].update(status))
     this.socket.on('lagCheck', () => {
       const lag = new Date().getTime() - Connection.lagCheckTime
-      $("#lag span:nth-child(2)").html(lag)
+      document.querySelector("#lag span:nth-child(2)").innerHTML = lag
     })
   },
 
@@ -98,7 +79,7 @@ const Connection = {
   
   getLag: function() {
     this.lagCheckTime = new Date().getTime()
-    this.socket.send("getLag")
+    this.socket.emit("getLag")
     setTimeout(() => this.getLag(), 15000)
   },
   

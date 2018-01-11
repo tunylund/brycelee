@@ -1,3 +1,17 @@
+import Character from './character.mjs'
+
+function getAbsCollision (th,col) {
+  col = col || th.collision
+  return {
+      x: th.x + col.x,
+      y: th.y + col.y,
+      w: col.w,
+      h: col.h,
+      hw: col.hw,
+      hh: col.hh,
+  }
+}
+
 class AutoPlayer extends Character {
   
   constructor (options) {
@@ -90,3 +104,5 @@ class AutoPlayer extends Character {
   }
 
 }
+
+export default AutoPlayer

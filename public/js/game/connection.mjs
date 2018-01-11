@@ -1,3 +1,5 @@
+import game from './game.mjs'
+
 const Connection = {
   
   init: function() {
@@ -106,3 +108,5 @@ const Connection = {
   }
   
 }
+
+export default Connection

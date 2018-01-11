@@ -1,3 +1,6 @@
+import game from './game.mjs'
+import Connection from './connection.mjs'
+
 function getAbsCollision (th,col) {
   col = col || th.collision
   return {
@@ -229,7 +232,7 @@ class Character {
       for(let id in players) {
         let p = players[id]
         if(p.id != this.id && !p.isDead && gbox.collides(col, getAbsCollision(p)) && !p.vaitingForKillOrder) {
-          if(p instanceof AutoPlayer) {
+          if(p.constructor.name === 'AutoPlayer') {
             p.die()
           } else {
             p.vaitingForKillOrder = true
@@ -360,3 +363,5 @@ class Character {
   }
 
 }
+
+export default Character

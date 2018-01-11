@@ -1,4 +1,6 @@
-// connection
+import Character from './character.mjs'
+import game from './game.mjs'
+import Connection from './connection.mjs'
 
 class Player extends Character {
   
@@ -124,3 +126,5 @@ class Player extends Character {
   }
 
 }
+
+export default Player

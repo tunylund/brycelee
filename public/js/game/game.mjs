@@ -1,3 +1,5 @@
+import Connection from './connection.mjs'
+
 const game = {
 
   init: function () {
@@ -56,4 +58,4 @@ const game = {
   }
 }
 
-gbox.onLoad(game.init)
+export default game

@@ -9,3 +9,5 @@ class CharacterType {
   }
 
 }
+
+export default CharacterType

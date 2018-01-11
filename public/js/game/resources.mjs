@@ -1,4 +1,5 @@
-gbox.onLoad(function() {
+function loadResources(gbox) {
+  gbox.onLoad(function() {
 
     gbox.addImage('largefont', "images/font_anonymous_pro_regular_16px.png");
     gbox.addImage('mediumfont', "images/font_anonymous_pro_regular_12px.png");
@@ -48,4 +49,7 @@ gbox.onLoad(function() {
       gapy: 0
     })
 
-})
+  })
+}
+
+export default loadResources

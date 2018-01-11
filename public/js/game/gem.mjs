@@ -1,3 +1,5 @@
+import game from './game.mjs'
+
 class Gem {
   
   constructor(id, status, x, y) {
@@ -40,3 +42,4 @@ class Gem {
   }
 }
 
+export default Gem

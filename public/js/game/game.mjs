@@ -8,7 +8,7 @@ const game = {
       title: 'Bryce Liiru', 
       width: 640, 
       height: 480, 
-      zoom: d.touch && d.width < 640 ? 0.45 : 1,
+      zoom: d.touch && window.innerWidth < 640 ? window.innerWidth / 640 : 1,
       fps: 24,
       padmode: "none",
       splash: {
@@ -18,7 +18,7 @@ const game = {
     })
 
     if ((help.geturlparameter("touch")=="yes") || device.touch) {
-      iphopad.initialize({ h: d.touch && d.width < 640 ? 80 : 140 }).className = "pad"
+      iphopad.initialize({ h: 140 }).className = "pad"
     }
     gbox.setCallback(() => game.onResourcesReady())
     gbox.setGroups(['background', 'gems', 'players', 'foreground'])

@@ -85,7 +85,6 @@ var iphopad={
 		oElement.style.padding="0px";
 		oElement.style.height=data.h+"px";
 		oElement.style.width="100%";
-		oElement.style.backgroundImage="url("+data.bg+")";
 		oElement.style.backgroundRepeat="repeat-x";
 		
 		var tpad=document.createElement("div");
@@ -94,7 +93,6 @@ var iphopad={
 		tpad.style.margin="0px";
 		tpad.style.height=data.h+"px";
 		tpad.style.width=data.h+"px";
-		tpad.style.backgroundImage="url("+data.dpad+")";
 		tpad.style.backgroundRepeat="no-repeat";
 
 		var bpad=document.createElement("div");
@@ -103,7 +101,6 @@ var iphopad={
 		bpad.style.margin="0px";
 		bpad.style.height=data.h+"px";
 		bpad.style.width=iphopad._buttonsize2+"px";
-		bpad.style.backgroundImage="url("+data.buttons+")";
 		bpad.style.backgroundRepeat="no-repeat";
 		
 		oElement.appendChild(tpad);
